@@ -1,35 +1,54 @@
-body{
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap');
+@import url('https://site-assets.fontawesome.com/releases/v6.4.2/css/all.css');
+
+@font-face {
+    font-family: "RDR Lino Regular";
+    src: url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.eot");
+    src: url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.eot?#iefix")format("embedded-opentype"),
+        url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.woff")format("woff"),
+        url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.woff2")format("woff2"),
+        url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.ttf")format("truetype"),
+        url("https://db.onlinewebfonts.com/t/ab21a97b9cae2e116d8d1473baefc9f0.svg#RDR Lino Regular")format("svg");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
     overflow: hidden;
     display: none;
     padding: 0;
     margin: 0;
 }
 
-.container{
+.container {
     position: relative;
     float: right;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     text-align: right;
 }
 
-.logo{
+.logo {
     margin-right: 5%;
+    font-family: "RDR Lino Regular";
+    color: wheat;
 }
 
-#bank{
+#bank {
     font-size: large;
-    font-weight:550;
+    font-weight: 550;
     color: rgba(255, 255, 255, 0.849);
     margin-right: 10%;
 }
-#money{
-    font-weight:550;
+
+#money {
+    font-weight: 550;
     color: #ffffffb4;
     margin-top: 20px;
     margin-right: 10%;
 }
 
-#id{
+#id {
     margin-top: 2px;
     margin-right: 10%;
     padding-bottom: 2px;
@@ -40,13 +59,13 @@ body{
 }
 
 
-#job-cont{
-    background-image: linear-gradient(to right, #b3b3b300,#c7c7c794);
+#job-cont {
+    background-image: linear-gradient(to right, #b3b3b300, #c7c7c794);
     text-align: right;
     min-width: 200px;
 }
 
-#job{
+#job {
     margin-top: 5%;
     margin-right: 5%;
     text-align: right;
@@ -55,11 +74,10 @@ body{
     padding-left: 50px;
     padding-right: 10px;
     padding-top: 5px;
-    font-family:fantasy;
-    
+    font-family: fantasy;
 }
 
-#grade{
+#grade {
     margin-right: 5%;
     padding-bottom: 5px;
     padding-right: 10px;
@@ -67,4 +85,3 @@ body{
     font-weight: 550;
     color: rgba(255, 255, 255, 0.849);
 }
-

@@ -1,3 +1,4 @@
+RSGCore = exports['rsg-core']:GetCoreObject()
 local cash, bank
 
 local function Toggle(state)
@@ -12,11 +13,11 @@ local function UpdateAccounts(accounts)
 
     local tempCash, tempBank
 
-    for _, data in pairs(accounts) do
-        if data.name == 'bank' then
-            tempBank = data.money
-        elseif data.name == 'money' then
-            tempCash = data.money
+    for account, amount in pairs(accounts) do
+        if account == 'bank' then
+            tempBank = amount
+        elseif account == 'cash' then
+            tempCash = amount
         end
     end
 
@@ -24,21 +25,21 @@ local function UpdateAccounts(accounts)
 end
 
 local function MainThread()
-
     Toggle(true)
 
     CreateThread(function()
         local playerServerId = GetPlayerServerId(PlayerId())
 
-        while ESX.PlayerLoaded do
+        while true do
+            local PlayerData = RSGCore.Functions.GetPlayerData()
 
             SendNUIMessage({
                 message = 'info',
                 value = {
                     bank = ("$" .. bank),
                     money = ("$" .. cash),
-                    job = string.upper(ESX.PlayerData.job.label),
-                    grade = string.upper(ESX.PlayerData.job.grade_label),
+                    job = string.upper(PlayerData.job.label),
+                    grade = string.upper(PlayerData.job.grade.name),
                     id = string.upper("ID " .. playerServerId)
                 }
             })
@@ -48,36 +49,37 @@ local function MainThread()
     end)
 end
 
-AddEventHandler('esx:playerLoaded', function(playerData)
-    cash, bank = UpdateAccounts(playerData.accounts)
+AddEventHandler('RSGCore:Client:OnPlayerLoaded', function()
+    local PlayerData = RSGCore.Functions.GetPlayerData()
+    cash, bank = UpdateAccounts(PlayerData.money)
     MainThread()
 end)
 
-AddEventHandler('esx:onPlayerLogout', function()
+AddEventHandler('RSGCore:Client:OnPlayerUnload', function()
     Toggle(false)
 end)
 
-AddEventHandler('esx:pauseMenuActive', function(state)
+AddEventHandler('RSGCore:Client:OnPauseMenuActive', function(state)
     Toggle(not state)
 end)
 
-RegisterNetEvent('esx:setAccountMoney', function(account)
-    if account.name == 'money' then
-        cash = account.money
-    elseif account.name == 'bank' then
-        bank = account.money
+RegisterNetEvent('RSGCore:Player:SetMoney', function(account, amount)
+    if account == 'cash' then
+        cash = amount
+    elseif account == 'bank' then
+        bank = amount
     end
 end)
 
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
-    ESX.PlayerData.job = job
+RegisterNetEvent('RSGCore:Player:SetJob', function(job)
+    local PlayerData = RSGCore.Functions.GetPlayerData()
+    PlayerData.job = job
 end)
 
-AddEventHandler('onResourceStart', function (resName)
+AddEventHandler('onResourceStart', function(resName)
     if GetCurrentResourceName() ~= resName then return end
     Wait(1000)
-    ESX.PlayerData = ESX.GetPlayerData()
-    cash, bank = UpdateAccounts(ESX.PlayerData.accounts)
+    local PlayerData = RSGCore.Functions.GetPlayerData()
+    cash, bank = UpdateAccounts(PlayerData.money)
     MainThread()
 end)
