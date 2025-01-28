@@ -76,6 +76,31 @@ RegisterNetEvent('RSGCore:Player:SetJob', function(job)
     PlayerData.job = job
 end)
 
+
+------------------------------------------------
+-- on money change
+------------------------------------------------
+RegisterNetEvent('hud:client:OnMoneyChange', function()
+    RSGCore.Functions.GetPlayerData(function(PlayerData)
+        cash = PlayerData.money.cash
+        bank = PlayerData.money.bank
+    end)
+    local PlayerData = RSGCore.Functions.GetPlayerData()
+
+    SendNUIMessage({
+        message = 'info',
+        value = {
+            bank = ("$" .. bank),
+            money = ("$" .. cash),
+            job = string.upper(PlayerData.job.label),
+            grade = string.upper(PlayerData.job.grade.name),
+            id = string.upper("ID " .. GetPlayerServerId(PlayerId()))
+        }
+    })
+end)
+
+
+
 AddEventHandler('onResourceStart', function(resName)
     if GetCurrentResourceName() ~= resName then return end
     Wait(1000)
